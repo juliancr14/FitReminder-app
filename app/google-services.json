@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "824417278429",
+    "project_id": "fitreminder-4ba1d",
+    "storage_bucket": "fitreminder-4ba1d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:824417278429:android:a5673755a2f4f1dd5afe34",
+        "android_client_info": {
+          "package_name": "com.cardoppc.fitreminder"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBP5GB7RwD2ogMkyku74cUTD6czvnDsDA8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
