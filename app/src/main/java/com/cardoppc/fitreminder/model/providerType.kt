@@ -1,5 +1,5 @@
 package com.cardoppc.fitreminder.model
 
-enum class providerType {
+enum class ProviderType {
     BASIC
 }
