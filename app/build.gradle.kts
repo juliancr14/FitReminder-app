@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.cardoppc.fitreminder"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.cardoppc.fitreminder"
