@@ -12,7 +12,20 @@
           "package_name": "com.cardoppc.fitreminder"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "824417278429-0a1f5820bdmchbfnc2ivakq2i6rt45ep.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cardoppc.fitreminder",
+            "certificate_hash": "a6da6fd943d29f06f187957cf0d5baaeff965ac7"
+          }
+        },
+        {
+          "client_id": "824417278429-l76vekabvtdqd0f8egjgtupo2cb8qv4g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBP5GB7RwD2ogMkyku74cUTD6czvnDsDA8"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "824417278429-l76vekabvtdqd0f8egjgtupo2cb8qv4g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

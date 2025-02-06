@@ -11,7 +11,7 @@
 
     <!-- Overlay semitransparente -->
     <View
-        android:id="@+id/overlay"
+        android:id="@+id/authLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="#80000000"
@@ -74,21 +74,22 @@
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"/>
 
-    <!-- Botón de Google (nuevo) -->
+    <!-- Botón de Google  -->
     <Button
         android:id="@+id/btnGoogle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/button_background"
+        android:drawableBottom="@drawable/gmail"
+        android:padding="4dp"
         android:text="Google"
         android:textColor="@android:color/white"
-        android:background="@drawable/button_background"
-        android:padding="12dp"
-        app:layout_constraintTop_toBottomOf="@id/btnIngresar"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnIngresar" />
 
     <!-- Texto interactivo "Registrarse" -->
     <TextView

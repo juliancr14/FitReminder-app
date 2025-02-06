@@ -67,6 +67,8 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.firebaseMessaging)
+    implementation(libs.firebaseGoogleAuth)
+    implementation(libs.firebaseInAppMesagging)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
