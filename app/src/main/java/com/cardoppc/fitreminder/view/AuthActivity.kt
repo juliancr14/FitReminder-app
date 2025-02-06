@@ -3,6 +3,7 @@ package com.cardoppc.fitreminder.view
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -17,6 +18,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.iid.internal.FirebaseInstanceIdInternal
+import com.google.firebase.messaging.FirebaseMessaging
 
 class AuthActivity : AppCompatActivity() {
 
@@ -27,6 +30,7 @@ class AuthActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_auth)
 
+        notification()
         setup()
         session()
     }
@@ -49,6 +53,20 @@ class AuthActivity : AppCompatActivity() {
             authLayout.visibility = View.INVISIBLE
             showHome(email, ProviderType.valueOf(provider))
         }
+    }
+
+    private fun notification() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.e("FCM", "Error al obtener el token", task.exception)
+                return@addOnCompleteListener
+            }
+
+            // Obtén el token
+            val token = task.result
+            Log.d("FCM", "Este es el token del dispositivo: $token")
+        }
+
     }
 
     private fun setup() {
