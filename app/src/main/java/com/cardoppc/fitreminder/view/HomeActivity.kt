@@ -17,20 +17,10 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_home)
-
-        drawerLayout = findViewById(R.id.drawer_layout)
-        val menuIcon = findViewById<View>(R.id.menu_icon)
+        
         val bundle = intent.extras
         val email = bundle?.getString("email") ?: ""
         val provider = bundle?.getString("provider") ?: ""
-
-        menuIcon.setOnClickListener {
-            if (drawerLayout.isDrawerOpen(androidx.core.view.GravityCompat.START)) {
-                drawerLayout.closeDrawer(androidx.core.view.GravityCompat.START)
-            } else {
-                drawerLayout.openDrawer(androidx.core.view.GravityCompat.START)
-            }
-        }
 
         setup(email, provider)
 
@@ -43,12 +33,22 @@ class HomeActivity : AppCompatActivity() {
     private fun setup(email: String, provider: String) {
         //title = "Inicio"
 
+        drawerLayout = findViewById(R.id.drawer_layout)
+        val menuIcon = findViewById<View>(R.id.menu_icon)
         //val txtEmail = findViewById<TextView>(R.id.txtVEmail)
         //val txtVProveedor = findViewById<TextView>(R.id.txtVProveedor)
         //val btnCerrarSesion = findViewById<Button>(R.id.btnCerrarSesion)
 
         //txtEmail.text = email
         //txtVProveedor.text = provider
+
+        menuIcon.setOnClickListener {
+            if (drawerLayout.isDrawerOpen(androidx.core.view.GravityCompat.START)) {
+                drawerLayout.closeDrawer(androidx.core.view.GravityCompat.START)
+            } else {
+                drawerLayout.openDrawer(androidx.core.view.GravityCompat.START)
+            }
+        }
 
         //btnCerrarSesion.setOnClickListener {
         //    val prefs = getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE).edit()
