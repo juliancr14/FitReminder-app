@@ -33,18 +33,12 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setup(email: String, provider: String) {
-        //title = "Inicio"
+        title = "Inicio"
 
         drawerLayout = findViewById(R.id.drawer_layout)
         navigationView = findViewById(R.id.navigation_view)
 
         val menuIcon = findViewById<View>(R.id.menu_icon)
-        //val txtEmail = findViewById<TextView>(R.id.txtVEmail)
-        //val txtVProveedor = findViewById<TextView>(R.id.txtVProveedor)
-        //val btnCerrarSesion = findViewById<Button>(R.id.btnCerrarSesion)
-
-        //txtEmail.text = email
-        //txtVProveedor.text = provider
 
         menuIcon.setOnClickListener {
             if (drawerLayout.isDrawerOpen(androidx.core.view.GravityCompat.START)) {
@@ -75,9 +69,6 @@ class HomeActivity : AppCompatActivity() {
                 else -> false
             }
         }
-
-
-
 
     }
 }
