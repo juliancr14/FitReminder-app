@@ -208,10 +208,12 @@
     </LinearLayout>
 
     <!-- Menú lateral -->
-    <ListView
-        android:id="@+id/nav_list"
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigation_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@android:color/white" />
+        android:background="@drawable/gradient_dark_blue"
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/nav_menu" />
 </androidx.drawerlayout.widget.DrawerLayout>

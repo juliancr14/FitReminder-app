@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/gradient_dark_blue"
+    android:padding="16dp">
+
+    <!-- Opción 1: Actualizar información -->
+    <TextView
+        android:id="@+id/nav_update_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Actualizar información"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Opción 2: Historial de progreso -->
+    <TextView
+        android:id="@+id/nav_progress_history"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Historial de progreso"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Opción 3: Cerrar sesión -->
+    <TextView
+        android:id="@+id/nav_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cerrar sesión"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:layout_marginBottom="16dp" />
+
+</LinearLayout>

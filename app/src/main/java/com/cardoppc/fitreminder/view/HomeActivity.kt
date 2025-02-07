@@ -9,9 +9,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import com.cardoppc.fitreminder.R
+import com.google.android.material.navigation.NavigationView
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
+    private lateinit var navigationView: NavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +36,8 @@ class HomeActivity : AppCompatActivity() {
         //title = "Inicio"
 
         drawerLayout = findViewById(R.id.drawer_layout)
+        navigationView = findViewById(R.id.navigation_view)
+
         val menuIcon = findViewById<View>(R.id.menu_icon)
         //val txtEmail = findViewById<TextView>(R.id.txtVEmail)
         //val txtVProveedor = findViewById<TextView>(R.id.txtVProveedor)
@@ -47,6 +51,24 @@ class HomeActivity : AppCompatActivity() {
                 drawerLayout.closeDrawer(androidx.core.view.GravityCompat.START)
             } else {
                 drawerLayout.openDrawer(androidx.core.view.GravityCompat.START)
+            }
+        }
+
+        navigationView.setNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.nav_update_info -> {
+                    // Acción para "Actualizar información"
+                    true
+                }
+                R.id.nav_progress_history -> {
+                    // Acción para "Historial de progreso"
+                    true
+                }
+                R.id.nav_logout -> {
+                    // Acción para "Cerrar sesión"
+                    true
+                }
+                else -> false
             }
         }
 
