@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Opción 1: Actualizar información -->
+    <item
+        android:id="@+id/nav_home"
+        android:title="Inicio"
+        android:icon="@drawable/ic_home" />
+
+    <!-- Opción 2: Historial de progreso -->
+    <item
+        android:id="@+id/nav_progress_history"
+        android:title="Historial de progreso"
+        android:icon="@drawable/ic_progress_history" />
+
+    <!-- Opción 3: Cerrar sesión -->
+    <item
+        android:id="@+id/nav_logout"
+        android:title="Cerrar sesión"
+        android:icon="@drawable/ic_logout" />
+
+</menu>

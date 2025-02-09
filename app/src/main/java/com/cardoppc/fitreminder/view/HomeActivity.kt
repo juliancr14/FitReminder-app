@@ -50,7 +50,7 @@ class HomeActivity : AppCompatActivity() {
         navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_update_info -> {
-                    val intent = Intent(this, ProgressHistoryActivity::class.java)
+                    val intent = Intent(this, UpdateActivity::class.java)
                     startActivity(intent)
 
                     true
@@ -63,7 +63,9 @@ class HomeActivity : AppCompatActivity() {
                     val prefs = getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE).edit()
                     prefs.clear()
                     prefs.apply()
-                    onBackPressedDispatcher.onBackPressed()
+
+                    val intent = Intent(this, AuthActivity::class.java)
+                    startActivity(intent)
 
                     true
                 }

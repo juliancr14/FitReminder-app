@@ -54,7 +54,7 @@ class AuthActivity : AppCompatActivity() {
 
         if (email != null && provider != null) {
             authLayout.visibility = View.INVISIBLE
-            showHome(email, ProviderType.valueOf(provider))
+            showHome(email)
         }
     }
 
@@ -81,7 +81,7 @@ class AuthActivity : AppCompatActivity() {
         btnRegistrar.setOnClickListener {
             if (txtEmail.text.isNotEmpty() && txtPassword.text.isNotEmpty()) {
                 authViewModel.createUser(txtEmail.text.toString(), txtPassword.text.toString(),
-                    onSuccess = { showHome(txtEmail.text.toString(), ProviderType.BASIC) },
+                    onSuccess = { showHome(txtEmail.text.toString()) },
                     onFailure = { showAlert() }
                 )
             }
@@ -90,7 +90,7 @@ class AuthActivity : AppCompatActivity() {
         btnIngresar.setOnClickListener {
             if (txtEmail.text.isNotEmpty() && txtPassword.text.isNotEmpty()) {
                 authViewModel.signInUser(txtEmail.text.toString(), txtPassword.text.toString(),
-                    onSuccess = { showHome(txtEmail.text.toString(), ProviderType.BASIC) },
+                    onSuccess = { showHome(txtEmail.text.toString()) },
                     onFailure = { showAlert() }
                 )
             }
@@ -116,10 +116,9 @@ class AuthActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    private fun showHome(email: String, provider: ProviderType) {
+    private fun showHome(email: String) {
         val homeIntent = Intent(this, HomeActivity::class.java).apply {
             putExtra("email", email)
-            putExtra("provider", provider.toString())
         }
         startActivity(homeIntent)
     }
@@ -132,7 +131,7 @@ class AuthActivity : AppCompatActivity() {
                 val account = task.getResult(ApiException::class.java)
                 if (account != null) {
                     authViewModel.signInWithGoogle(account,
-                        onSuccess = { showHome(account.email ?: "", ProviderType.GOOGLE) },
+                        onSuccess = { showHome(account.email ?: "")},
                         onFailure = { showAlert() }
                     )
                 }
