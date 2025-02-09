@@ -1,10 +1,9 @@
 package com.cardoppc.fitreminder.view
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
@@ -24,7 +23,7 @@ class HomeActivity : AppCompatActivity() {
         val email = bundle?.getString("email") ?: ""
         val provider = bundle?.getString("provider") ?: ""
 
-        setup(email, provider)
+        setup()
 
         val prefs = getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE).edit()
         prefs.putString("email", email)
@@ -32,7 +31,7 @@ class HomeActivity : AppCompatActivity() {
         prefs.apply()
     }
 
-    private fun setup(email: String, provider: String) {
+    private fun setup() {
         title = "Inicio"
 
         drawerLayout = findViewById(R.id.drawer_layout)
@@ -51,7 +50,9 @@ class HomeActivity : AppCompatActivity() {
         navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_update_info -> {
-                    // Acción para "Actualizar información"
+                    val intent = Intent(this, ProgressHistoryActivity::class.java)
+                    startActivity(intent)
+
                     true
                 }
                 R.id.nav_progress_history -> {

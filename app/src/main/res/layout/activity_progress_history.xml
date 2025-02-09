@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/gradient_background"
+    android:padding="16dp">
+
+    <!-- Imagen del usuario -->
+    <ImageView
+        android:id="@+id/profile_picture"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/ic_profile_placeholder"
+        android:scaleType="centerCrop"
+        android:background="@drawable/circle_background"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Nombre del usuario -->
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nombre de usuario:"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Peso del usuario -->
+    <TextView
+        android:id="@+id/user_weight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Peso: 30 kg"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="4dp" />
+
+    <!-- Estatura del usuario -->
+    <TextView
+        android:id="@+id/user_height"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Estatura: 1.75 cm"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Sección de editar información -->
+    <TextView
+        android:id="@+id/edit_info_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Editar información"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Campos para editar -->
+    <EditText
+        android:id="@+id/edit_weight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nuevo peso"
+        android:background="@drawable/rounded_edit_text"
+        android:padding="12dp"
+        android:textColorHint="@android:color/darker_gray"
+        android:layout_marginBottom="8dp" />
+
+    <EditText
+        android:id="@+id/edit_height"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nueva estatura"
+        android:background="@drawable/rounded_edit_text"
+        android:padding="12dp"
+        android:textColorHint="@android:color/darker_gray"
+        android:layout_marginBottom="8dp" />
+
+    <EditText
+        android:id="@+id/edit_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nuevo nombre"
+        android:background="@drawable/rounded_edit_text"
+        android:padding="12dp"
+        android:textColorHint="@android:color/darker_gray"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Botón de actualizar -->
+    <Button
+        android:id="@+id/update_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Actualizar"
+        android:background="@drawable/button_background"
+        android:textColor="@android:color/white"
+        android:padding="12dp"
+        android:layout_marginTop="16dp" />
+</LinearLayout>
