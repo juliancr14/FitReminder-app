@@ -52,11 +52,15 @@ class HomeActivity : AppCompatActivity() {
                 R.id.nav_update_info -> {
                     val intent = Intent(this, UpdateActivity::class.java)
                     startActivity(intent)
+                    finish()
 
                     true
                 }
                 R.id.nav_progress_history -> {
-                    // Acción para "Historial de progreso"
+                    val intent = Intent(this, ProgressActivity::class.java)
+                    startActivity(intent)
+                    finish()
+
                     true
                 }
                 R.id.nav_logout -> {
@@ -66,6 +70,7 @@ class HomeActivity : AppCompatActivity() {
 
                     val intent = Intent(this, AuthActivity::class.java)
                     startActivity(intent)
+                    finish()
 
                     true
                 }

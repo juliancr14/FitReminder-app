@@ -13,6 +13,9 @@
         android:theme="@style/Theme.FitReminder"
         tools:targetApi="31">
         <activity
+            android:name=".view.ProgressActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.UpdateActivity"
             android:exported="false" />
         <activity
