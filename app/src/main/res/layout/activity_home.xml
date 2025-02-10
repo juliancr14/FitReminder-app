@@ -8,203 +8,212 @@
     android:layout_height="match_parent"
     tools:context=".view.HomeActivity">
 
-    <!-- Contenido principal de la actividad -->
+    <!-- Contenedor principal -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@drawable/gradient_background"
-        android:padding="16dp">
+        android:orientation="vertical">
 
-        <!-- Menú hamburguesa -->
-
-        <!-- Texto del IMC -->
-
-        <ImageView
-            android:id="@+id/menu_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp"
-            android:contentDescription="Menú"
-            android:src="@drawable/barra" />
-
-        <TextView
-            android:id="@+id/imc_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="24.5 - Saludable"
-            android:textSize="24sp"
-            android:textColor="@android:color/white"
-            android:layout_gravity="center_horizontal" />
-
-        <TextView
-            android:id="@+id/imc_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tu IMC\n24.5"
-            android:textSize="20sp"
-            android:textColor="@android:color/white"
-            android:gravity="center"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp" />
-
-        <!-- Barras de progreso -->
-        <LinearLayout
+        <!-- Toolbar -->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="16dp">
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/toolbar_background"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Bajo peso"
-                android:textColor="@android:color/white"
-                android:layout_marginBottom="4dp" />
-
-            <ProgressBar
-                android:layout_width="match_parent"
-                android:layout_height="8dp"
-                android:backgroundTint="@android:color/darker_gray"
-                android:progress="20"
-                android:progressTint="@android:color/holo_blue_light" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Normal"
-                android:textColor="@android:color/white"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="4dp" />
-
-            <ProgressBar
-                android:layout_width="match_parent"
-                android:layout_height="8dp"
-                android:progress="60"
-                android:progressTint="@android:color/holo_blue_light"
-                android:backgroundTint="@android:color/darker_gray" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Sobrepeso"
-                android:textColor="@android:color/white"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="4dp" />
-
-            <ProgressBar
-                android:layout_width="match_parent"
-                android:layout_height="8dp"
-                android:progress="40"
-                android:progressTint="@android:color/holo_blue_light"
-                android:backgroundTint="@android:color/darker_gray" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Obesidad"
-                android:textColor="@android:color/white"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="4dp" />
-
-            <ProgressBar
-                android:layout_width="match_parent"
-                android:layout_height="8dp"
-                android:progress="10"
-                android:progressTint="@android:color/holo_blue_light"
-                android:backgroundTint="@android:color/darker_gray" />
-        </LinearLayout>
-
-        <!-- Recomendaciones de ejercicio -->
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Recomendaciones de ejercicio"
-            android:textColor="@android:color/white" />
-
-        <LinearLayout
+        <!-- Contenido principal -->
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp">
+            android:layout_height="match_parent"
+            android:background="@drawable/gradient_background"
+            android:padding="16dp">
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:background="@drawable/card_background"
-                android:padding="8dp"
-                android:layout_marginEnd="4dp">
+                android:orientation="vertical">
 
-                <ImageView
+                <!-- Texto del IMC -->
+                <TextView
+                    android:id="@+id/imc_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="24.5 - Saludable"
+                    android:textSize="24sp"
+                    android:textColor="@android:color/white"
+                    android:layout_gravity="center_horizontal" />
+
+                <TextView
+                    android:id="@+id/imc_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tu IMC\n24.5"
+                    android:textSize="20sp"
+                    android:textColor="@android:color/white"
+                    android:gravity="center"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="8dp" />
+
+                <!-- Barras de progreso -->
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:src="@drawable/funcionamiento"
-                    android:contentDescription="Yoga matutino" />
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="16dp">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Bajo peso"
+                        android:textColor="@android:color/white"
+                        android:layout_marginBottom="4dp" />
+
+                    <ProgressBar
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp"
+                        android:backgroundTint="@android:color/darker_gray"
+                        android:progress="20"
+                        android:progressTint="@android:color/holo_blue_light" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Normal"
+                        android:textColor="@android:color/white"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="4dp" />
+
+                    <ProgressBar
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp"
+                        android:progress="60"
+                        android:progressTint="@android:color/holo_blue_light"
+                        android:backgroundTint="@android:color/darker_gray" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sobrepeso"
+                        android:textColor="@android:color/white"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="4dp" />
+
+                    <ProgressBar
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp"
+                        android:progress="40"
+                        android:progressTint="@android:color/holo_blue_light"
+                        android:backgroundTint="@android:color/darker_gray" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Obesidad"
+                        android:textColor="@android:color/white"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="4dp" />
+
+                    <ProgressBar
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp"
+                        android:progress="10"
+                        android:progressTint="@android:color/holo_blue_light"
+                        android:backgroundTint="@android:color/darker_gray" />
+                </LinearLayout>
+
+                <!-- Recomendaciones de ejercicio -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Yoga matutino"
-                    android:textColor="@android:color/white"
-                    android:layout_marginTop="8dp" />
+                    android:layout_marginTop="16dp"
+                    android:text="Recomendaciones de ejercicio"
+                    android:textColor="@android:color/white" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Relajación y flexibilidad"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp" />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Ver más"
-                    android:textSize="12sp"
-                    android:layout_marginTop="8dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:background="@drawable/card_background"
-                android:padding="8dp"
-                android:layout_marginStart="4dp">
-
-                <ImageView
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:src="@drawable/aptitud"
-                    android:contentDescription="Cardio intenso" />
-
-                <TextView
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Cardio intenso"
-                    android:textColor="@android:color/white"
-                    android:layout_marginTop="8dp" />
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Quema de grasa y resistencia"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp" />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:background="@drawable/card_background"
+                        android:padding="8dp"
+                        android:layout_marginEnd="4dp">
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Ver más"
-                    android:textSize="12sp"
-                    android:layout_marginTop="8dp" />
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:src="@drawable/funcionamiento"
+                            android:contentDescription="Yoga matutino" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Yoga matutino"
+                            android:textColor="@android:color/white"
+                            android:layout_marginTop="8dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Relajación y flexibilidad"
+                            android:textColor="@android:color/white"
+                            android:textSize="12sp" />
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Ver más"
+                            android:textSize="12sp"
+                            android:layout_marginTop="8dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:background="@drawable/card_background"
+                        android:padding="8dp"
+                        android:layout_marginStart="4dp">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:src="@drawable/aptitud"
+                            android:contentDescription="Cardio intenso" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Cardio intenso"
+                            android:textColor="@android:color/white"
+                            android:layout_marginTop="8dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Quema de grasa y resistencia"
+                            android:textColor="@android:color/white"
+                            android:textSize="12sp" />
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Ver más"
+                            android:textSize="12sp"
+                            android:layout_marginTop="8dp" />
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
+        </ScrollView>
     </LinearLayout>
 
     <!-- Menú lateral -->
