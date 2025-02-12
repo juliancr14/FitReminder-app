@@ -8,7 +8,7 @@ class UpdateRepository(private val context: Context) {
     private val firestore = FirebaseFirestore.getInstance()
 
     fun fetchUserProfile(onSuccess: (Map<String, Any>) -> Unit, onFailure: () -> Unit) {
-        val userId = "user_id" // Obtener el ID del usuario actual
+        val userId = "user_id"
         firestore.collection("users").document(userId)
             .get()
             .addOnSuccessListener { document ->
@@ -24,7 +24,7 @@ class UpdateRepository(private val context: Context) {
     fun updateUserProfile(userInfo: Map<String, Any>, onSuccess: () -> Unit, onFailure: () -> Unit) {
         val userId = "user_id" // Obtener el ID del usuario actual
         firestore.collection("users").document(userId)
-            .set(userInfo)
+            .update(userInfo) // Usamos update en lugar de set
             .addOnSuccessListener { onSuccess() }
             .addOnFailureListener { onFailure() }
     }

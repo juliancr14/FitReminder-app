@@ -72,23 +72,35 @@ class UpdateActivity : AppCompatActivity() {
 
         // Configuración del botón para guardar cambios
         binding.saveButton.setOnClickListener {
-            val weightInput = binding.editWeight.text.toString()
-            val heightInput = binding.editHeight.text.toString()
-            val nameInput = binding.editName.text.toString()
+            val updatedInfo = mutableMapOf<String, Any>()
 
-            if (weightInput.isNotEmpty() && heightInput.isNotEmpty() && nameInput.isNotEmpty()) {
-                val userInfo = mapOf(
-                    "weight" to weightInput,
-                    "height" to heightInput,
-                    "name" to nameInput
-                )
+            // Agregar solo los campos que el usuario haya modificado
+            val newName = binding.editName.text.toString()
+            if (newName.isNotEmpty()) {
+                updatedInfo["name"] = newName
+            }
 
-                updateViewModel.updateUserProfile(userInfo,
-                    onSuccess = { showToast("Información actualizada") },
+            val newWeight = binding.editWeight.text.toString()
+            if (newWeight.isNotEmpty()) {
+                updatedInfo["weight"] = newWeight
+            }
+
+            val newHeight = binding.editHeight.text.toString()
+            if (newHeight.isNotEmpty()) {
+                updatedInfo["height"] = newHeight
+            }
+
+            // Si hay datos para actualizar, llamar al ViewModel
+            if (updatedInfo.isNotEmpty()) {
+                updateViewModel.updateUserProfile(updatedInfo,
+                    onSuccess = {
+                        showToast("Información actualizada")
+                        loadUserProfile() // Recargar la información para actualizar la UI
+                    },
                     onFailure = { showToast("Error al actualizar información") }
                 )
             } else {
-                showToast("Por favor, completa todos los campos")
+                showToast("No hay cambios para guardar")
             }
         }
     }
