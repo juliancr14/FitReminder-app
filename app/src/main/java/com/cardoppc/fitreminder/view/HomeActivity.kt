@@ -1,22 +1,24 @@
 package com.cardoppc.fitreminder.view
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.drawerlayout.widget.DrawerLayout
+import androidx.core.view.GravityCompat
 import com.cardoppc.fitreminder.R
 import com.cardoppc.fitreminder.databinding.ActivityHomeBinding
 import com.cardoppc.fitreminder.viewModel.HomeViewModel
 import com.cardoppc.fitreminder.viewModel.HomeViewModelFactory
-import com.google.android.material.navigation.NavigationView
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 
 class HomeActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityHomeBinding
-    private lateinit var drawerLayout: DrawerLayout
-    private lateinit var navigationView: NavigationView
     private lateinit var toggle: ActionBarDrawerToggle
     private val homeViewModel: HomeViewModel by viewModels { HomeViewModelFactory(this) }
 
@@ -25,80 +27,139 @@ class HomeActivity : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val bundle = intent.extras
-        val email = bundle?.getString("email") ?: ""
-        val provider = bundle?.getString("provider") ?: ""
-
-        setupToolbar()
-        setupNavigationDrawer()
-
-        // Cargar los datos del usuario desde Firestore
-        loadUserProfile(email)
-
-        val prefs = getSharedPreferences(getString(R.string.prefs_file), MODE_PRIVATE).edit()
-        prefs.putString("email", email)
-        prefs.putString("provider", provider)
-        prefs.apply()
-    }
-
-    private fun setupToolbar() {
+        // Configurar Toolbar
         setSupportActionBar(binding.toolbar)
-        supportActionBar?.title = "Inicio"
-    }
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.barra) // Ícono del menú hamburguesa
 
-    private fun setupNavigationDrawer() {
-        drawerLayout = findViewById(R.id.drawer_layout)
-        navigationView = findViewById(R.id.navigation_view)
-
+        // Configurar DrawerLayout y Toggle para el menú hamburguesa
         toggle = ActionBarDrawerToggle(
             this,
-            drawerLayout,
+            binding.drawerLayout,
             R.string.open_drawer,
             R.string.close_drawer
         )
-        drawerLayout.addDrawerListener(toggle)
+        binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        navigationView.setNavigationItemSelectedListener { menuItem ->
+        // Configurar navegación del NavigationView
+        binding.navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_update_info -> {
-                    val intent = Intent(this, UpdateActivity::class.java)
-                    startActivity(intent)
+                    startActivity(Intent(this, UpdateActivity::class.java))
                     finish()
                     true
                 }
                 R.id.nav_progress_history -> {
-                    val intent = Intent(this, ProgressActivity::class.java)
-                    startActivity(intent)
+                    startActivity(Intent(this, ProgressActivity::class.java))
                     finish()
                     true
                 }
                 R.id.nav_logout -> {
-                    val prefs = getSharedPreferences(getString(R.string.prefs_file), MODE_PRIVATE).edit()
-                    prefs.clear()
-                    prefs.apply()
-                    val intent = Intent(this, AuthActivity::class.java)
-                    startActivity(intent)
+                    getSharedPreferences(getString(R.string.prefs_file), MODE_PRIVATE).edit().clear().apply()
+                    startActivity(Intent(this, AuthActivity::class.java))
                     finish()
                     true
                 }
                 else -> false
+            }.also {
+                binding.drawerLayout.closeDrawer(GravityCompat.START)
             }
+        }
+
+        // Cargar los datos del usuario desde Firestore
+        loadUserProfile()
+    }
+
+    private fun loadUserProfile() {
+        homeViewModel.fetchUserProfile(
+            onSuccess = { userProfile ->
+                val weight = userProfile["weight"]?.toString()?.toDoubleOrNull()
+                val height = userProfile["height"]?.toString()?.toDoubleOrNull()
+                val fatPercentage = userProfile["fatPercentage"]?.toString()?.toDoubleOrNull()
+
+                // Calcular IMC
+                if (weight != null && height != null) {
+                    val heightInMeters = height / 100
+                    val imc = weight / (heightInMeters * heightInMeters)
+                    binding.imcValue.text = "IMC: %.2f".format(imc)
+                    binding.imcStatus.text = "Estado: ${getImcStatus(imc)}"
+                } else {
+                    binding.imcValue.text = "IMC: Falta información"
+                    binding.imcStatus.text = "Estado: Falta información"
+                }
+
+                // Actualizar gráficos de barras
+                setupBarCharts(weight, height, fatPercentage)
+            },
+            onFailure = {
+                binding.imcValue.text = "IMC: Falta información"
+                binding.imcStatus.text = "Estado: Falta información"
+                setupBarCharts(null, null, null)
+            }
+        )
+    }
+
+    private fun getImcStatus(imc: Double): String {
+        return when {
+            imc < 18.5 -> "Bajo peso"
+            imc in 18.5..24.9 -> "Normal"
+            imc in 25.0..29.9 -> "Sobrepeso"
+            else -> "Obesidad"
         }
     }
 
-    private fun loadUserProfile(email: String) {
-        homeViewModel.fetchUserProfile(
-            onSuccess = { userProfile ->
-                // Aquí puedes actualizar la UI con los datos del usuario
-                // Por ejemplo, mostrar el nombre, peso, altura, etc.
-            },
-            onFailure = {
-                // Manejar el caso en que no se encuentren datos del usuario
-            }
-        )
+    private fun setupBarCharts(weight: Double?, height: Double?, fatPercentage: Double?) {
+        // Configurar gráfico de peso
+        val weightEntries = listOf(BarEntry(0f, weight?.toFloat() ?: 0f))
+        val weightDataSet = BarDataSet(weightEntries, "Peso").apply {
+            color = Color.BLUE
+            valueTextColor = Color.WHITE
+        }
+        binding.weightBarChart.apply {
+            data = BarData(weightDataSet)
+            xAxis.position = XAxis.XAxisPosition.BOTTOM
+            xAxis.valueFormatter = IndexAxisValueFormatter(arrayOf("Peso"))
+            axisLeft.axisMaximum = 150f
+            axisRight.isEnabled = false
+            description.isEnabled = false
+            legend.isEnabled = false
+            invalidate()
+        }
+
+        // Configurar gráfico de altura
+        val heightEntries = listOf(BarEntry(0f, height?.toFloat() ?: 0f))
+        val heightDataSet = BarDataSet(heightEntries, "Altura").apply {
+            color = Color.GREEN
+            valueTextColor = Color.WHITE
+        }
+        binding.heightBarChart.apply {
+            data = BarData(heightDataSet)
+            xAxis.position = XAxis.XAxisPosition.BOTTOM
+            xAxis.valueFormatter = IndexAxisValueFormatter(arrayOf("Altura"))
+            axisLeft.axisMaximum = 250f
+            axisRight.isEnabled = false
+            description.isEnabled = false
+            legend.isEnabled = false
+            invalidate()
+        }
+
+        // Configurar gráfico de grasa corporal
+        val fatEntries = listOf(BarEntry(0f, fatPercentage?.toFloat() ?: 0f))
+        val fatDataSet = BarDataSet(fatEntries, "Grasa Corporal").apply {
+            color = Color.RED
+            valueTextColor = Color.WHITE
+        }
+        binding.fatBarChart.apply {
+            data = BarData(fatDataSet)
+            xAxis.position = XAxis.XAxisPosition.BOTTOM
+            xAxis.valueFormatter = IndexAxisValueFormatter(arrayOf("Grasa"))
+            axisLeft.axisMaximum = 100f
+            axisRight.isEnabled = false
+            description.isEnabled = false
+            legend.isEnabled = false
+            invalidate()
+        }
     }
 
     override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {

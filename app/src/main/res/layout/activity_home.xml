@@ -15,14 +15,16 @@
         android:orientation="vertical">
 
         <!-- Toolbar -->
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/toolbar_background"
             android:elevation="4dp"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            android:minHeight="?attr/actionBarSize"
+            app:title="Inicio" />
 
         <!-- Contenido principal -->
         <ScrollView
@@ -38,24 +40,23 @@
 
                 <!-- Texto del IMC -->
                 <TextView
-                    android:id="@+id/imc_title"
+                    android:id="@+id/imcValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="24.5 - Saludable"
+                    android:text="IMC: Cargando..."
                     android:textSize="24sp"
                     android:textColor="@android:color/white"
                     android:layout_gravity="center_horizontal" />
 
                 <TextView
-                    android:id="@+id/imc_value"
+                    android:id="@+id/imcStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tu IMC\n24.5"
-                    android:textSize="20sp"
+                    android:text="Estado: Cargando..."
+                    android:textSize="16sp"
                     android:textColor="@android:color/white"
                     android:gravity="center"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="8dp" />
+                    android:layout_gravity="center_horizontal" />
 
                 <!-- Barras de progreso -->
                 <LinearLayout
@@ -64,64 +65,55 @@
                     android:orientation="vertical"
                     android:layout_marginTop="16dp">
 
+                    <!-- Peso -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Bajo peso"
+                        android:text="Peso"
                         android:textColor="@android:color/white"
-                        android:layout_marginBottom="4dp" />
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="8dp" />
 
-                    <ProgressBar
+                    <com.github.mikephil.charting.charts.BarChart
+                        android:id="@+id/weightBarChart"
                         android:layout_width="match_parent"
-                        android:layout_height="8dp"
-                        android:backgroundTint="@android:color/darker_gray"
-                        android:progress="20"
-                        android:progressTint="@android:color/holo_blue_light" />
+                        android:layout_height="100dp"
+                        android:visibility="visible" />
 
+                    <!-- Altura -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Normal"
+                        android:text="Altura"
                         android:textColor="@android:color/white"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="4dp" />
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="8dp" />
 
-                    <ProgressBar
+                    <com.github.mikephil.charting.charts.BarChart
+                        android:id="@+id/heightBarChart"
                         android:layout_width="match_parent"
-                        android:layout_height="8dp"
-                        android:progress="60"
-                        android:progressTint="@android:color/holo_blue_light"
-                        android:backgroundTint="@android:color/darker_gray" />
+                        android:layout_height="100dp"
+                        android:visibility="visible" />
 
+                    <!-- Grasa Corporal -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Sobrepeso"
+                        android:text="Grasa Corporal"
                         android:textColor="@android:color/white"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="4dp" />
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="8dp" />
 
-                    <ProgressBar
+                    <com.github.mikephil.charting.charts.BarChart
+                        android:id="@+id/fatBarChart"
                         android:layout_width="match_parent"
-                        android:layout_height="8dp"
-                        android:progress="40"
-                        android:progressTint="@android:color/holo_blue_light"
-                        android:backgroundTint="@android:color/darker_gray" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Obesidad"
-                        android:textColor="@android:color/white"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="4dp" />
-
-                    <ProgressBar
-                        android:layout_width="match_parent"
-                        android:layout_height="8dp"
-                        android:progress="10"
-                        android:progressTint="@android:color/holo_blue_light"
-                        android:backgroundTint="@android:color/darker_gray" />
+                        android:layout_height="100dp"
+                        android:visibility="visible" />
                 </LinearLayout>
 
                 <!-- Recomendaciones de ejercicio -->
@@ -218,7 +210,7 @@
 
     <!-- Menú lateral -->
     <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navigation_view"
+        android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
