@@ -17,7 +17,7 @@ class UpdateViewModel(private val context: Context) : ViewModel() {
     }
 
     fun saveProgress(weight: String, onSuccess: () -> Unit, onFailure: () -> Unit) {
-        updateRepository.saveProgress(weight, onSuccess, onFailure)
+        updateRepository.saveWeightToProgress(weight, onSuccess, onFailure)
     }
 
     fun fetchProgressHistory(onSuccess: (List<Map<String, Any>>) -> Unit, onFailure: () -> Unit) {

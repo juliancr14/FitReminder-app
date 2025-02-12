@@ -33,17 +33,24 @@ class UpdateRepository(private val context: Context) {
         if (userEmail != null) {
             firestore.collection("users").document(userEmail)
                 .update(userInfo)
-                .addOnSuccessListener { onSuccess() }
+                .addOnSuccessListener {
+                    // Si el peso fue actualizado, guardarlo en la colección "progress"
+                    if (userInfo.containsKey("weight")) {
+                        saveWeightToProgress(userInfo["weight"].toString(), onSuccess, onFailure)
+                    } else {
+                        onSuccess()
+                    }
+                }
                 .addOnFailureListener { onFailure() }
         } else {
             onFailure()
         }
     }
 
-    fun saveProgress(weight: String, onSuccess: () -> Unit, onFailure: () -> Unit) {
+    fun saveWeightToProgress(weight: String, onSuccess: () -> Unit, onFailure: () -> Unit) {
         val userEmail = auth.currentUser?.email
         if (userEmail != null) {
-            // Guardar el peso actual en el perfil del usuario
+            // Actualizar el peso en el perfil del usuario
             firestore.collection("users").document(userEmail)
                 .update("weight", weight)
                 .addOnSuccessListener {

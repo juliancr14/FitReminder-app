@@ -84,8 +84,8 @@ class ProgressActivity : AppCompatActivity() {
                 updateViewModel.saveProgress(weightInput,
                     onSuccess = {
                         showToast("Nuevo progreso registrado: $weightInput")
-                        loadUserProfile()
-                        loadProgressHistory(binding.chart)
+                        loadUserProfile() // Recargar el perfil del usuario
+                        loadProgressHistory(binding.chart) // Recargar el historial de pesos
                     },
                     onFailure = { showToast("Error al registrar progreso") }
                 )
