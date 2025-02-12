@@ -18,21 +18,8 @@ class AuthRepository(private val context: Context) {
                 if (task.isSuccessful) {
                     val user = task.result?.user
                     if (user != null) {
-                        // Verificar si el documento ya existe antes de crearlo
-                        firestore.collection("users").document(user.email!!)
-                            .get()
-                            .addOnSuccessListener { document ->
-                                if (!document.exists()) {
-                                    // Crear el documento solo si no existe
-                                    firestore.collection("users").document(user.email!!)
-                                        .set(mapOf("email" to user.email))
-                                        .addOnSuccessListener { onSuccess() }
-                                        .addOnFailureListener { onFailure() }
-                                } else {
-                                    onSuccess()
-                                }
-                            }
-                            .addOnFailureListener { onFailure() }
+                        // Guardar los datos del usuario en Firestore
+                        saveUserDataToFirestore(user.email ?: "", onSuccess, onFailure)
                     } else {
                         onFailure()
                     }
@@ -46,7 +33,13 @@ class AuthRepository(private val context: Context) {
         firebaseAuth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    onSuccess()
+                    val user = task.result?.user
+                    if (user != null) {
+                        // Verificar si el usuario ya tiene datos en Firestore
+                        fetchUserDataFromFirestore(user.email ?: "", onSuccess, onFailure)
+                    } else {
+                        onFailure()
+                    }
                 } else {
                     onFailure()
                 }
@@ -60,21 +53,8 @@ class AuthRepository(private val context: Context) {
                 if (task.isSuccessful) {
                     val user = task.result?.user
                     if (user != null) {
-                        // Verificar si el documento ya existe antes de crearlo
-                        firestore.collection("users").document(user.email!!)
-                            .get()
-                            .addOnSuccessListener { document ->
-                                if (!document.exists()) {
-                                    // Crear el documento solo si no existe
-                                    firestore.collection("users").document(user.email!!)
-                                        .set(mapOf("email" to user.email))
-                                        .addOnSuccessListener { onSuccess() }
-                                        .addOnFailureListener { onFailure() }
-                                } else {
-                                    onSuccess()
-                                }
-                            }
-                            .addOnFailureListener { onFailure() }
+                        // Guardar los datos del usuario en Firestore
+                        saveUserDataToFirestore(user.email ?: "", onSuccess, onFailure)
                     } else {
                         onFailure()
                     }
@@ -96,5 +76,36 @@ class AuthRepository(private val context: Context) {
                 onFailure()
             }
         }
+    }
+
+    private fun saveUserDataToFirestore(email: String, onSuccess: () -> Unit, onFailure: () -> Unit) {
+        firestore.collection("users").document(email)
+            .get()
+            .addOnSuccessListener { document ->
+                if (!document.exists()) {
+                    // Crear el documento solo si no existe
+                    firestore.collection("users").document(email)
+                        .set(mapOf("email" to email))
+                        .addOnSuccessListener { onSuccess() }
+                        .addOnFailureListener { onFailure() }
+                } else {
+                    onSuccess()
+                }
+            }
+            .addOnFailureListener { onFailure() }
+    }
+
+    private fun fetchUserDataFromFirestore(email: String, onSuccess: () -> Unit, onFailure: () -> Unit) {
+        firestore.collection("users").document(email)
+            .get()
+            .addOnSuccessListener { document ->
+                if (document.exists()) {
+                    onSuccess()
+                } else {
+                    // Si no existe, crear el documento
+                    saveUserDataToFirestore(email, onSuccess, onFailure)
+                }
+            }
+            .addOnFailureListener { onFailure() }
     }
 }
