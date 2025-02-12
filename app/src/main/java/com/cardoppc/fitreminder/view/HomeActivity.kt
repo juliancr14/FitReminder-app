@@ -17,6 +17,10 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import androidx.work.PeriodicWorkRequest
+import androidx.work.WorkManager
+import com.cardoppc.fitreminder.model.WaterReminderWorker
+import java.util.concurrent.TimeUnit
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
@@ -57,6 +61,7 @@ class HomeActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_logout -> {
+                    // Limpiar SharedPreferences al cerrar sesión
                     getSharedPreferences(getString(R.string.prefs_file), MODE_PRIVATE).edit().clear().apply()
                     startActivity(Intent(this, AuthActivity::class.java))
                     finish()
@@ -68,34 +73,22 @@ class HomeActivity : AppCompatActivity() {
             }
         }
 
-        // Configurar los botones "Ver más"
-        setupExerciseButtons()
+        // Programar notificaciones periódicas
+        scheduleWaterReminder()
 
         // Cargar los datos del usuario desde Firestore
         loadUserProfile()
+
+        // Configurar los botones "Ver más"
+        setupExerciseButtons()
     }
 
-    private fun setupExerciseButtons() {
-        // Botón para cardio
-        binding.btnCardio.setOnClickListener {
-            openYouTubeVideo("https://www.youtube.com/watch?v=QOVXlsAfOT0")
-        }
-
-        // Botón para Cardio Intenso
-        binding.btnFuerza.setOnClickListener {
-            openYouTubeVideo("https://www.youtube.com/watch?v=GQAsUb9XE2I")
-        }
-    }
-
-    private fun openYouTubeVideo(videoUrl: String) {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(videoUrl))
-        intent.setPackage("com.google.android.youtube") // Forzar apertura en YouTube
-        if (intent.resolveActivity(packageManager) != null) {
-            startActivity(intent)
-        } else {
-            // Si YouTube no está instalado, abrir en el navegador
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(videoUrl)))
-        }
+    private fun scheduleWaterReminder() {
+        val workRequest = PeriodicWorkRequest.Builder(
+            WaterReminderWorker::class.java,
+            15, TimeUnit.MINUTES
+        ).build()
+        WorkManager.getInstance(this).enqueue(workRequest)
     }
 
     private fun loadUserProfile() {
@@ -186,6 +179,29 @@ class HomeActivity : AppCompatActivity() {
             description.isEnabled = false
             legend.isEnabled = false
             invalidate()
+        }
+    }
+
+    private fun setupExerciseButtons() {
+        // Botón para Yoga Matutino
+        binding.btnCardio.setOnClickListener {
+            openYouTubeVideo("https://www.youtube.com/watch?v=QOVXlsAfOT0")
+        }
+
+        // Botón para Cardio Intenso
+        binding.btnFuerza.setOnClickListener {
+            openYouTubeVideo("https://www.youtube.com/watch?v=GQAsUb9XE2I")
+        }
+    }
+
+    private fun openYouTubeVideo(videoUrl: String) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(videoUrl))
+        intent.setPackage("com.google.android.youtube") // Forzar apertura en YouTube
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
+        } else {
+            // Si YouTube no está instalado, abrir en el navegador
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(videoUrl)))
         }
     }
 

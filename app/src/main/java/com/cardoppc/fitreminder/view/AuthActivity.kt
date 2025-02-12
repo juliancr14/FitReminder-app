@@ -25,7 +25,6 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.messaging.FirebaseMessaging
 
 class AuthActivity : AppCompatActivity() {
-
     private lateinit var authViewModel: AuthViewModel
     private val GOOGLE_SIGN_IN = 100
 
@@ -105,7 +104,9 @@ class AuthActivity : AppCompatActivity() {
 
         btnRegistrar.setOnClickListener {
             if (txtEmail.text.isNotEmpty() && txtPassword.text.isNotEmpty()) {
-                authViewModel.createUser(txtEmail.text.toString(), txtPassword.text.toString(),
+                authViewModel.createUser(
+                    txtEmail.text.toString(),
+                    txtPassword.text.toString(),
                     onSuccess = { showHome(txtEmail.text.toString()) },
                     onFailure = { showAlert() }
                 )
@@ -114,8 +115,13 @@ class AuthActivity : AppCompatActivity() {
 
         btnIngresar.setOnClickListener {
             if (txtEmail.text.isNotEmpty() && txtPassword.text.isNotEmpty()) {
-                authViewModel.signInUser(txtEmail.text.toString(), txtPassword.text.toString(),
-                    onSuccess = { showHome(txtEmail.text.toString()); sendLoginNotification() },
+                authViewModel.signInUser(
+                    txtEmail.text.toString(),
+                    txtPassword.text.toString(),
+                    onSuccess = {
+                        showHome(txtEmail.text.toString())
+                        sendLoginNotification()
+                    },
                     onFailure = { showAlert() }
                 )
             }
@@ -142,10 +148,16 @@ class AuthActivity : AppCompatActivity() {
     }
 
     private fun showHome(email: String) {
+        val prefs = getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE).edit()
+        prefs.putString("email", email)
+        prefs.putString("provider", "BASIC") // O "GOOGLE" si es autenticación con Google
+        prefs.apply()
+
         val homeIntent = Intent(this, HomeActivity::class.java).apply {
             putExtra("email", email)
         }
         startActivity(homeIntent)
+        finish()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -155,8 +167,16 @@ class AuthActivity : AppCompatActivity() {
             try {
                 val account = task.getResult(ApiException::class.java)
                 if (account != null) {
-                    authViewModel.signInWithGoogle(account,
-                        onSuccess = { showHome(account.email ?: "") },
+                    authViewModel.signInWithGoogle(
+                        account,
+                        onSuccess = {
+                            val email = account.email ?: ""
+                            val prefs = getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE).edit()
+                            prefs.putString("email", email)
+                            prefs.putString("provider", "GOOGLE")
+                            prefs.apply()
+                            showHome(email)
+                        },
                         onFailure = { showAlert() }
                     )
                 }
