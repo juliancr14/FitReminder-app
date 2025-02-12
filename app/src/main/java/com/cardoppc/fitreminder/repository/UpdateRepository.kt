@@ -38,4 +38,16 @@ class UpdateRepository(private val context: Context) {
             onFailure()
         }
     }
+
+    fun saveProgress(weight: String, onSuccess: () -> Unit, onFailure: () -> Unit) {
+        val userEmail = auth.currentUser?.email
+        if (userEmail != null) {
+            firestore.collection("users").document(userEmail)
+                .update("weight", weight)
+                .addOnSuccessListener { onSuccess() }
+                .addOnFailureListener { onFailure() }
+        } else {
+            onFailure()
+        }
+    }
 }

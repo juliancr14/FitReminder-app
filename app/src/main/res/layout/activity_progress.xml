@@ -57,6 +57,17 @@
             android:text="Registrar"
             android:textColor="@android:color/white" />
 
+        <!-- Peso del usuario -->
+        <TextView
+            android:id="@+id/userWeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Peso: Falta información"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp" />
+
         <!-- Imagen del gráfico -->
         <ImageView
             android:id="@+id/chart_image"

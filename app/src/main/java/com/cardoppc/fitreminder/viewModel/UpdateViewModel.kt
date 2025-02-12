@@ -15,4 +15,8 @@ class UpdateViewModel(private val context: Context) : ViewModel() {
     fun updateUserProfile(userInfo: Map<String, Any>, onSuccess: () -> Unit, onFailure: () -> Unit) {
         updateRepository.updateUserProfile(userInfo, onSuccess, onFailure)
     }
+
+    fun saveProgress(weight: String, onSuccess: () -> Unit, onFailure: () -> Unit) {
+        updateRepository.saveProgress(weight, onSuccess, onFailure)
+    }
 }

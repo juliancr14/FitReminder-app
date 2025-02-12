@@ -8,14 +8,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import com.cardoppc.fitreminder.R
 import com.cardoppc.fitreminder.databinding.ActivityProgressBinding
-import com.cardoppc.fitreminder.viewModel.ProgressViewModel
-import com.cardoppc.fitreminder.viewModel.ProgressViewModelFactory
+import com.cardoppc.fitreminder.viewModel.UpdateViewModel
+import com.cardoppc.fitreminder.viewModel.UpdateViewModelFactory
 
 class ProgressActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityProgressBinding
     private lateinit var toggle: ActionBarDrawerToggle
-    private val progressViewModel: ProgressViewModel by viewModels { ProgressViewModelFactory(this) }
+    private val updateViewModel: UpdateViewModel by viewModels { UpdateViewModelFactory(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,18 +67,36 @@ class ProgressActivity : AppCompatActivity() {
             }
         }
 
+        // Cargar la información del usuario desde Firestore
+        loadUserProfile()
+
         // Configuración del botón para registrar progreso
         binding.registerButton.setOnClickListener {
             val weightInput = binding.weightInput.text.toString()
             if (weightInput.isNotEmpty()) {
-                progressViewModel.saveProgress(weightInput,
-                    onSuccess = { showToast("Progreso registrado: $weightInput") },
+                updateViewModel.saveProgress(weightInput,
+                    onSuccess = {
+                        showToast("Nuevo progreso registrado: $weightInput")
+                        loadUserProfile() // Recargar la información para actualizar la UI
+                    },
                     onFailure = { showToast("Error al registrar progreso") }
                 )
             } else {
                 showToast("Por favor, ingresa un valor")
             }
         }
+    }
+
+    private fun loadUserProfile() {
+        updateViewModel.fetchUserProfile(
+            onSuccess = { userProfile ->
+                val weight = userProfile["weight"]?.toString() ?: "Falta información"
+                binding.userWeight.text = "Peso: $weight kg"
+            },
+            onFailure = {
+                binding.userWeight.text = "Peso: Falta información"
+            }
+        )
     }
 
     private fun showToast(message: String) {
