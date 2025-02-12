@@ -1,23 +1,29 @@
 package com.cardoppc.fitreminder.view
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import com.cardoppc.fitreminder.R
+import com.cardoppc.fitreminder.databinding.ActivityHomeBinding
+import com.cardoppc.fitreminder.viewModel.HomeViewModel
+import com.cardoppc.fitreminder.viewModel.HomeViewModelFactory
 import com.google.android.material.navigation.NavigationView
 
 class HomeActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityHomeBinding
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
     private lateinit var toggle: ActionBarDrawerToggle
+    private val homeViewModel: HomeViewModel by viewModels { HomeViewModelFactory(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
+        binding = ActivityHomeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val bundle = intent.extras
         val email = bundle?.getString("email") ?: ""
@@ -26,15 +32,18 @@ class HomeActivity : AppCompatActivity() {
         setupToolbar()
         setupNavigationDrawer()
 
-        val prefs = getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE).edit()
+        // Cargar los datos del usuario desde Firestore
+        loadUserProfile(email)
+
+        val prefs = getSharedPreferences(getString(R.string.prefs_file), MODE_PRIVATE).edit()
         prefs.putString("email", email)
         prefs.putString("provider", provider)
         prefs.apply()
     }
 
     private fun setupToolbar() {
-        setSupportActionBar(findViewById(R.id.toolbar))
-        title = "Inicio"
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.title = "Inicio"
     }
 
     private fun setupNavigationDrawer() {
@@ -67,7 +76,7 @@ class HomeActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_logout -> {
-                    val prefs = getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE).edit()
+                    val prefs = getSharedPreferences(getString(R.string.prefs_file), MODE_PRIVATE).edit()
                     prefs.clear()
                     prefs.apply()
                     val intent = Intent(this, AuthActivity::class.java)
@@ -78,6 +87,18 @@ class HomeActivity : AppCompatActivity() {
                 else -> false
             }
         }
+    }
+
+    private fun loadUserProfile(email: String) {
+        homeViewModel.fetchUserProfile(
+            onSuccess = { userProfile ->
+                // Aquí puedes actualizar la UI con los datos del usuario
+                // Por ejemplo, mostrar el nombre, peso, altura, etc.
+            },
+            onFailure = {
+                // Manejar el caso en que no se encuentren datos del usuario
+            }
+        )
     }
 
     override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
