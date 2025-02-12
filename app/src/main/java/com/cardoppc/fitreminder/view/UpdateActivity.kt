@@ -12,7 +12,6 @@ import com.cardoppc.fitreminder.viewModel.UpdateViewModel
 import com.cardoppc.fitreminder.viewModel.UpdateViewModelFactory
 
 class UpdateActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityUpdateBinding
     private lateinit var toggle: ActionBarDrawerToggle
     private val updateViewModel: UpdateViewModel by viewModels { UpdateViewModelFactory(this) }
@@ -90,6 +89,12 @@ class UpdateActivity : AppCompatActivity() {
                 updatedInfo["height"] = newHeight
             }
 
+            // Nuevo campo: Porcentaje de grasa corporal
+            val newFatPercentage = binding.editFatPercentage.text.toString()
+            if (newFatPercentage.isNotEmpty()) {
+                updatedInfo["fatPercentage"] = newFatPercentage.toDoubleOrNull() ?: 0.0
+            }
+
             // Si hay datos para actualizar, llamar al ViewModel
             if (updatedInfo.isNotEmpty()) {
                 updateViewModel.updateUserProfile(updatedInfo,
@@ -111,11 +116,16 @@ class UpdateActivity : AppCompatActivity() {
                 binding.userName.text = userProfile["name"]?.toString() ?: "Falta información"
                 binding.userWeight.text = "Peso: ${userProfile["weight"] ?: "Falta información"} kg"
                 binding.userHeight.text = "Estatura: ${userProfile["height"] ?: "Falta información"} cm"
+
+                // Nuevo campo: Mostrar porcentaje de grasa corporal
+                val fatPercentage = userProfile["fatPercentage"]?.toString() ?: "Falta información"
+                binding.userFatPercentage.text = "Grasa corporal: $fatPercentage %"
             },
             onFailure = {
                 binding.userName.text = "Falta información"
                 binding.userWeight.text = "Peso: Falta información"
                 binding.userHeight.text = "Estatura: Falta información"
+                binding.userFatPercentage.text = "Grasa corporal: Falta información"
             }
         )
     }

@@ -66,6 +66,16 @@
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:id="@+id/userFatPercentage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Grasa corporal: Falta información"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginBottom="16dp" />
 
         <!-- Sección de editar información -->
@@ -96,6 +106,17 @@
             android:hint="Nueva estatura"
             android:background="@drawable/rounded_edit_text"
             android:padding="12dp"
+            android:textColorHint="@android:color/darker_gray"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
+            android:id="@+id/editFatPercentage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nuevo porcentaje de grasa corporal"
+            android:background="@drawable/rounded_edit_text"
+            android:padding="12dp"
+            android:inputType="numberDecimal"
             android:textColorHint="@android:color/darker_gray"
             android:layout_marginBottom="8dp" />
 
