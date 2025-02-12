@@ -16,6 +16,10 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import androidx.work.PeriodicWorkRequest
+import androidx.work.WorkManager
+import com.cardoppc.fitreminder.model.WaterReminderWorker
+import java.util.concurrent.TimeUnit
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
@@ -26,6 +30,8 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        scheduleWaterReminder()
 
         // Configurar Toolbar
         setSupportActionBar(binding.toolbar)
@@ -69,6 +75,15 @@ class HomeActivity : AppCompatActivity() {
 
         // Cargar los datos del usuario desde Firestore
         loadUserProfile()
+    }
+
+    private fun scheduleWaterReminder() {
+        val workRequest = PeriodicWorkRequest.Builder(
+            WaterReminderWorker::class.java,
+            15, TimeUnit.MINUTES
+        ).build()
+
+        WorkManager.getInstance(this).enqueue(workRequest)
     }
 
     private fun loadUserProfile() {

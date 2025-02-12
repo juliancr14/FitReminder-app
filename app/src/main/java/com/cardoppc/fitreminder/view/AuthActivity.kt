@@ -1,7 +1,10 @@
 package com.cardoppc.fitreminder.view
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -11,6 +14,7 @@ import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
 import androidx.lifecycle.ViewModelProvider
 import com.cardoppc.fitreminder.R
 import com.cardoppc.fitreminder.viewModel.AuthViewModel
@@ -43,6 +47,28 @@ class AuthActivity : AppCompatActivity() {
         super.onStart()
         val authLayout = findViewById<View>(R.id.authLayout)
         authLayout.visibility = View.INVISIBLE
+    }
+
+    private fun sendLoginNotification() {
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                "water_reminder",
+                "Recordatorios de Agua",
+                NotificationManager.IMPORTANCE_HIGH
+            )
+            notificationManager.createNotificationChannel(channel)
+        }
+
+        val notificationBuilder = NotificationCompat.Builder(this, "water_reminder")
+            .setSmallIcon(R.drawable.ic_water) // Icono de la notificación
+            .setContentTitle("Bienvenido")
+            .setContentText("Tienes que tomar agua")
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setAutoCancel(true)
+
+        notificationManager.notify(1, notificationBuilder.build())
     }
 
     private fun session() {
@@ -89,7 +115,7 @@ class AuthActivity : AppCompatActivity() {
         btnIngresar.setOnClickListener {
             if (txtEmail.text.isNotEmpty() && txtPassword.text.isNotEmpty()) {
                 authViewModel.signInUser(txtEmail.text.toString(), txtPassword.text.toString(),
-                    onSuccess = { showHome(txtEmail.text.toString()) },
+                    onSuccess = { showHome(txtEmail.text.toString()); sendLoginNotification() },
                     onFailure = { showAlert() }
                 )
             }

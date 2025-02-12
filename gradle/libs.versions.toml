@@ -19,6 +19,7 @@ firebaseMessagingV = "24.1.0"
 firebaseGoogleAuthV = "21.3.0"
 firebaseInAppMesaggingV = "21.0.1"
 mPAndroidChartV = "v3.1.0"
+workRuntimeKtx = "2.10.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -45,6 +46,7 @@ firebaseMessaging = { group = "com.google.firebase", name = "firebase-messaging"
 firebaseGoogleAuth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "firebaseGoogleAuthV" }
 firebaseInAppMesagging = { group = "com.google.firebase", name = "firebase-inappmessaging-display", version.ref = "firebaseInAppMesaggingV" }
 mpAndroidChart = { group = "com.github.PhilJay", name = "MPAndroidChart", version.ref = "mPAndroidChartV" }
+androidx-work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "workRuntimeKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

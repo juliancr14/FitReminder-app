@@ -73,6 +73,7 @@ dependencies {
     implementation(libs.firebaseGoogleAuth)
     implementation(libs.firebaseInAppMesagging)
     implementation(libs.mpAndroidChart)
+    implementation(libs.androidx.work.runtime.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
