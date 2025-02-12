@@ -1,19 +1,21 @@
 package com.cardoppc.fitreminder.view
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import com.cardoppc.fitreminder.R
 import com.cardoppc.fitreminder.databinding.ActivityProgressBinding
+import com.cardoppc.fitreminder.viewModel.ProgressViewModel
+import com.cardoppc.fitreminder.viewModel.ProgressViewModelFactory
 
 class ProgressActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityProgressBinding
     private lateinit var toggle: ActionBarDrawerToggle
+    private val progressViewModel: ProgressViewModel by viewModels { ProgressViewModelFactory(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,36 +44,37 @@ class ProgressActivity : AppCompatActivity() {
                     val intent = Intent(this, HomeActivity::class.java)
                     startActivity(intent)
                     finish()
+                    true
                 }
-                R.id.nav_update -> {
+                R.id.nav_update_info -> {
                     val intent = Intent(this, UpdateActivity::class.java)
                     startActivity(intent)
                     finish()
+                    true
                 }
                 R.id.nav_logout -> {
-                    val prefs = getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE).edit()
+                    val prefs = getSharedPreferences(getString(R.string.prefs_file), MODE_PRIVATE).edit()
                     prefs.clear()
                     prefs.apply()
-
                     val intent = Intent(this, AuthActivity::class.java)
                     startActivity(intent)
                     finish()
-
                     true
                 }
                 else -> false
+            }.also {
+                binding.drawerLayout.closeDrawer(GravityCompat.START)
             }
-            binding.drawerLayout.closeDrawer(GravityCompat.START)
-            true
         }
 
-        // Configuración adicional
+        // Configuración del botón para registrar progreso
         binding.registerButton.setOnClickListener {
             val weightInput = binding.weightInput.text.toString()
             if (weightInput.isNotEmpty()) {
-                // Guardar o procesar el nuevo peso ingresado
-                // Aquí puedes manejar lógica adicional
-                showToast("Nuevo progreso registrado: $weightInput")
+                progressViewModel.saveProgress(weightInput,
+                    onSuccess = { showToast("Progreso registrado: $weightInput") },
+                    onFailure = { showToast("Error al registrar progreso") }
+                )
             } else {
                 showToast("Por favor, ingresa un valor")
             }
@@ -79,7 +82,7 @@ class ProgressActivity : AppCompatActivity() {
     }
 
     private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        android.widget.Toast.makeText(this, message, android.widget.Toast.LENGTH_SHORT).show()
     }
 
     override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {

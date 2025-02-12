@@ -10,6 +10,7 @@ import com.cardoppc.fitreminder.R
 import com.google.android.material.navigation.NavigationView
 
 class HomeActivity : AppCompatActivity() {
+
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
     private lateinit var toggle: ActionBarDrawerToggle
@@ -32,8 +33,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setupToolbar() {
-        val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
+        setSupportActionBar(findViewById(R.id.toolbar))
         title = "Inicio"
     }
 
@@ -70,7 +70,6 @@ class HomeActivity : AppCompatActivity() {
                     val prefs = getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE).edit()
                     prefs.clear()
                     prefs.apply()
-
                     val intent = Intent(this, AuthActivity::class.java)
                     startActivity(intent)
                     finish()

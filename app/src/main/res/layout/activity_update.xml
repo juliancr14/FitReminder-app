@@ -14,7 +14,6 @@
         android:background="@drawable/gradient_dark_blue"
         android:padding="16dp">
 
-        <!-- Toolbar (para corregir el error en el Activity) -->
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"

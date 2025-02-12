@@ -13,7 +13,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.cardoppc.fitreminder.R
-import com.cardoppc.fitreminder.model.ProviderType
 import com.cardoppc.fitreminder.viewModel.AuthViewModel
 import com.cardoppc.fitreminder.viewModel.AuthViewModelFactory
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -131,7 +130,7 @@ class AuthActivity : AppCompatActivity() {
                 val account = task.getResult(ApiException::class.java)
                 if (account != null) {
                     authViewModel.signInWithGoogle(account,
-                        onSuccess = { showHome(account.email ?: "")},
+                        onSuccess = { showHome(account.email ?: "") },
                         onFailure = { showAlert() }
                     )
                 }

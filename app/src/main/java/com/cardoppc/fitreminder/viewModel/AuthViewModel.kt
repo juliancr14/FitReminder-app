@@ -2,7 +2,6 @@ package com.cardoppc.fitreminder.viewModel
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
-import com.cardoppc.fitreminder.model.ProviderType
 import com.cardoppc.fitreminder.repository.AuthRepository
 
 class AuthViewModel(private val context: Context) : ViewModel() {
