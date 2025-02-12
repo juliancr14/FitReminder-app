@@ -10,6 +10,12 @@ import com.cardoppc.fitreminder.R
 import com.cardoppc.fitreminder.databinding.ActivityProgressBinding
 import com.cardoppc.fitreminder.viewModel.UpdateViewModel
 import com.cardoppc.fitreminder.viewModel.UpdateViewModelFactory
+import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ProgressActivity : AppCompatActivity() {
 
@@ -67,8 +73,9 @@ class ProgressActivity : AppCompatActivity() {
             }
         }
 
-        // Cargar la información del usuario desde Firestore
+        // Cargar la información del usuario y el historial de pesos
         loadUserProfile()
+        loadProgressHistory(binding.chart)
 
         // Configuración del botón para registrar progreso
         binding.registerButton.setOnClickListener {
@@ -77,7 +84,8 @@ class ProgressActivity : AppCompatActivity() {
                 updateViewModel.saveProgress(weightInput,
                     onSuccess = {
                         showToast("Nuevo progreso registrado: $weightInput")
-                        loadUserProfile() // Recargar la información para actualizar la UI
+                        loadUserProfile()
+                        loadProgressHistory(binding.chart)
                     },
                     onFailure = { showToast("Error al registrar progreso") }
                 )
@@ -91,10 +99,39 @@ class ProgressActivity : AppCompatActivity() {
         updateViewModel.fetchUserProfile(
             onSuccess = { userProfile ->
                 val weight = userProfile["weight"]?.toString() ?: "Falta información"
-                binding.userWeight.text = "Peso: $weight kg"
+                binding.userWeight.text = "Peso actual: $weight kg"
             },
             onFailure = {
-                binding.userWeight.text = "Peso: Falta información"
+                binding.userWeight.text = "Peso actual: Falta información"
+            }
+        )
+    }
+
+    private fun loadProgressHistory(chart: LineChart) {
+        updateViewModel.fetchProgressHistory(
+            onSuccess = { progressList ->
+                val entries = mutableListOf<Entry>()
+                val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+
+                for ((index, progress) in progressList.withIndex()) {
+                    val weight = progress["weight"].toString().toFloatOrNull() ?: 0f
+                    val timestamp = progress["timestamp"] as? Date
+                    val formattedDate = timestamp?.let { dateFormat.format(it) } ?: "Fecha desconocida"
+                    entries.add(Entry(index.toFloat(), weight))
+                }
+
+                val dataSet = LineDataSet(entries, "Historial de Peso")
+                dataSet.color = resources.getColor(android.R.color.holo_purple)
+                dataSet.valueTextColor = android.R.color.white
+                dataSet.setDrawCircles(true)
+                dataSet.setDrawValues(true)
+
+                val lineData = LineData(dataSet)
+                chart.data = lineData
+                chart.invalidate()
+            },
+            onFailure = {
+                showToast("No se pudo cargar el historial de progreso")
             }
         )
     }
