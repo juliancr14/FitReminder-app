@@ -130,6 +130,7 @@
                     android:orientation="horizontal"
                     android:layout_marginTop="8dp">
 
+                    <!-- Cardio -->
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -143,23 +144,24 @@
                             android:layout_width="match_parent"
                             android:layout_height="80dp"
                             android:src="@drawable/funcionamiento"
-                            android:contentDescription="Yoga matutino" />
+                            android:contentDescription="Rutina de cardio" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Yoga matutino"
+                            android:text="Rutina de cardio"
                             android:textColor="@android:color/white"
                             android:layout_marginTop="8dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Relajación y flexibilidad"
+                            android:text="Mejora la circulación y quema calorias"
                             android:textColor="@android:color/white"
                             android:textSize="12sp" />
 
                         <Button
+                            android:id="@+id/btnCardio"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Ver más"
@@ -167,6 +169,7 @@
                             android:layout_marginTop="8dp" />
                     </LinearLayout>
 
+                    <!-- Fuerza -->
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -180,23 +183,24 @@
                             android:layout_width="match_parent"
                             android:layout_height="80dp"
                             android:src="@drawable/aptitud"
-                            android:contentDescription="Cardio intenso" />
+                            android:contentDescription="Rutina fuerza calistenia" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Cardio intenso"
+                            android:text="Rutina fuerza calistenia"
                             android:textColor="@android:color/white"
                             android:layout_marginTop="8dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Quema de grasa y resistencia"
+                            android:text="Gana fuerza y musculo con tu propio peso"
                             android:textColor="@android:color/white"
                             android:textSize="12sp" />
 
                         <Button
+                            android:id="@+id/btnFuerza"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Ver más"

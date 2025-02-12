@@ -2,6 +2,7 @@ package com.cardoppc.fitreminder.view
 
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -16,10 +17,6 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
-import androidx.work.PeriodicWorkRequest
-import androidx.work.WorkManager
-import com.cardoppc.fitreminder.model.WaterReminderWorker
-import java.util.concurrent.TimeUnit
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
@@ -30,8 +27,6 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        scheduleWaterReminder()
 
         // Configurar Toolbar
         setSupportActionBar(binding.toolbar)
@@ -73,17 +68,34 @@ class HomeActivity : AppCompatActivity() {
             }
         }
 
+        // Configurar los botones "Ver más"
+        setupExerciseButtons()
+
         // Cargar los datos del usuario desde Firestore
         loadUserProfile()
     }
 
-    private fun scheduleWaterReminder() {
-        val workRequest = PeriodicWorkRequest.Builder(
-            WaterReminderWorker::class.java,
-            15, TimeUnit.MINUTES
-        ).build()
+    private fun setupExerciseButtons() {
+        // Botón para cardio
+        binding.btnCardio.setOnClickListener {
+            openYouTubeVideo("https://www.youtube.com/watch?v=QOVXlsAfOT0")
+        }
 
-        WorkManager.getInstance(this).enqueue(workRequest)
+        // Botón para Cardio Intenso
+        binding.btnFuerza.setOnClickListener {
+            openYouTubeVideo("https://www.youtube.com/watch?v=GQAsUb9XE2I")
+        }
+    }
+
+    private fun openYouTubeVideo(videoUrl: String) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(videoUrl))
+        intent.setPackage("com.google.android.youtube") // Forzar apertura en YouTube
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
+        } else {
+            // Si YouTube no está instalado, abrir en el navegador
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(videoUrl)))
+        }
     }
 
     private fun loadUserProfile() {
